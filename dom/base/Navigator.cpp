@@ -457,7 +457,7 @@ void Navigator::GetOscpu(nsAString& aOSCPU, CallerType aCallerType,
     // nsRFPService.h for details about spoofed values.
     if (nsContentUtils::ShouldResistFingerprinting(GetDocShell(),
                                                    RFPTarget::NavigatorOscpu)) {
-      aOSCPU.AssignLiteral(SPOOFED_OSCPU);
+      // aOSCPU.AssignLiteral(SPOOFED_OSCPU);
       return;
     }
 
@@ -487,7 +487,7 @@ void Navigator::GetOscpu(nsAString& aOSCPU, CallerType aCallerType,
   CopyASCIItoUTF16(oscpu, aOSCPU);
 }
 
-void Navigator::GetVendor(nsAString& aVendor) { aVendor.Truncate(); }
+void Navigator::GetVendor(nsAString& aVendor) { aVendor.AssignLiteral("Google Inc."); }
 
 void Navigator::GetVendorSub(nsAString& aVendorSub) { aVendorSub.Truncate(); }
 
@@ -497,7 +497,7 @@ void Navigator::GetProduct(nsAString& aProduct) {
 
 void Navigator::GetProductSub(nsAString& aProductSub) {
   // Legacy build date hardcoded for backward compatibility (bug 776376)
-  aProductSub.AssignLiteral(LEGACY_UA_GECKO_TRAIL);
+  aProductSub.AssignLiteral("20030107");
 }
 
 nsMimeTypeArray* Navigator::GetMimeTypes(ErrorResult& aRv) {
@@ -620,14 +620,14 @@ void Navigator::GetBuildID(nsAString& aBuildID, CallerType aCallerType,
     // nsRFPService.h for details about spoofed values.
     if (nsContentUtils::ShouldResistFingerprinting(
             GetDocShell(), RFPTarget::NavigatorBuildID)) {
-      aBuildID.AssignLiteral(LEGACY_BUILD_ID);
+      // aBuildID.AssignLiteral(LEGACY_BUILD_ID);
       return;
     }
 
     nsAutoString override;
     nsresult rv = Preferences::GetString("general.buildID.override", override);
     if (NS_SUCCEEDED(rv)) {
-      aBuildID = override;
+      // aBuildID = override;
       return;
     }
 
@@ -648,7 +648,7 @@ void Navigator::GetBuildID(nsAString& aBuildID, CallerType aCallerType,
 
     // Spoof the buildID on pages not loaded from "https://*.mozilla.org".
     if (!isHTTPS || !StringEndsWith(host, ".mozilla.org"_ns)) {
-      aBuildID.AssignLiteral(LEGACY_BUILD_ID);
+      // aBuildID.AssignLiteral(LEGACY_BUILD_ID);
       return;
     }
   }

@@ -1018,79 +1018,30 @@ const nsCString& nsHttpHandler::UserAgent(bool aShouldResistFingerprinting) {
 void nsHttpHandler::BuildUserAgent() {
   LOG(("nsHttpHandler::BuildUserAgent\n"));
 
-  MOZ_ASSERT(!mLegacyAppName.IsEmpty() && !mLegacyAppVersion.IsEmpty(),
-             "HTTP cannot send practical requests without this much");
+  mUserAgent.AssignLiteral("Mozilla/5.0 (");
 
-  // preallocate to worst-case size, which should always be better
-  // than if we didn't preallocate at all.
-  mUserAgent.SetCapacity(mLegacyAppName.Length() + mLegacyAppVersion.Length() +
-#ifndef UA_SPARE_PLATFORM
-                         mPlatform.Length() +
-#endif
-                         mOscpu.Length() + mMisc.Length() + mProduct.Length() +
-                         mProductSub.Length() + mAppName.Length() +
-                         mAppVersion.Length() + mCompatFirefox.Length() +
-                         mCompatDevice.Length() + mDeviceModelId.Length() + 13);
-
-  // Application portion
-  mUserAgent.Assign(mLegacyAppName);
-  mUserAgent += '/';
-  mUserAgent += mLegacyAppVersion;
-  mUserAgent += ' ';
-
-  // Application comment
-  mUserAgent += '(';
-#ifndef UA_SPARE_PLATFORM
+  #ifndef UA_SPARE_PLATFORM
   if (!mPlatform.IsEmpty()) {
     mUserAgent += mPlatform;
-    mUserAgent.AppendLiteral("; ");
   }
-#endif
-  if (!mCompatDevice.IsEmpty()) {
-    mUserAgent += mCompatDevice;
-    mUserAgent.AppendLiteral("; ");
-  } else if (!mOscpu.IsEmpty()) {
+  #endif
+
+  if (!mOscpu.IsEmpty()) {
+    if (!mPlatform.IsEmpty()) {
+      mUserAgent.AppendLiteral("; ");
+    }
     mUserAgent += mOscpu;
-    mUserAgent.AppendLiteral("; ");
   }
-  if (!mDeviceModelId.IsEmpty()) {
-    mUserAgent += mDeviceModelId;
-    mUserAgent.AppendLiteral("; ");
-  }
-  mUserAgent += mMisc;
-  mUserAgent += ')';
 
-  // Product portion
-  mUserAgent += ' ';
-  mUserAgent += mProduct;
-  mUserAgent += '/';
-  mUserAgent += mProductSub;
+  mAppVersion.AssignLiteral("200.0");
 
-  bool isFirefox = mAppName.EqualsLiteral("Firefox");
-  if (isFirefox || mCompatFirefoxEnabled) {
-    // "Firefox/x.y" (compatibility) app token
-    mUserAgent += ' ';
-    mUserAgent += mCompatFirefox;
-  }
-  if (!isFirefox) {
-    // App portion
-    mUserAgent += ' ';
-    mUserAgent += mAppName;
-    mUserAgent += '/';
-    mUserAgent += mAppVersion;
-  }
+  mUserAgent.AppendLiteral(") AppleWebKit/537.36 (KHTML, like Gecko) ");
+
+  mUserAgent.AppendLiteral("yewgamerww/");
+  mUserAgent += mAppVersion;
+
+  mUserAgent.AppendLiteral(" Safari/537.36");
 }
-
-#ifdef XP_WIN
-// Hardcode the reported Windows version to 10.0. This way, Microsoft doesn't
-// get to change Web compat-sensitive values without our veto. The compat-
-// sensitivity keeps going up as 10.0 stays as the current value for longer
-// and longer. If the system-reported version ever changes, we'll be able to
-// take our time to evaluate the Web compat impact instead of having to
-// scramble to react like happened with macOS changing from 10.x to 11.x.
-#  define OSCPU_WINDOWS "Windows NT 10.0"
-#  define OSCPU_WIN64 OSCPU_WINDOWS "; Win64; x64"
-#endif
 
 void nsHttpHandler::InitUserAgentComponents() {
   // Don't build user agent components in socket process, since the system info

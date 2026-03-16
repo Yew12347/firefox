@@ -265,8 +265,8 @@ Window includes WindowLocalStorage;
 
 // http://www.whatwg.org/specs/web-apps/current-work/
 partial interface Window {
-  undefined captureEvents();
-  undefined releaseEvents();
+  // undefined captureEvents();
+  // undefined releaseEvents();
 };
 
 // https://dvcs.w3.org/hg/editing/raw-file/tip/editing.html
@@ -483,10 +483,10 @@ partial interface Window {
   [ChromeOnly, Constant, CrossOriginReadable, BinaryName="getBrowsingContext"]
   readonly attribute BrowsingContext browsingContext;
 
-  [Throws, NeedsCallerType]
-  readonly attribute float mozInnerScreenX;
-  [Throws, NeedsCallerType]
-  readonly attribute float mozInnerScreenY;
+  // [Throws, NeedsCallerType]
+  // readonly attribute float mozInnerScreenX;
+  // [Throws, NeedsCallerType]
+  // readonly attribute float mozInnerScreenY;
   [Replaceable, Throws, NeedsCallerType]
   readonly attribute double devicePixelRatio;
 
@@ -586,8 +586,8 @@ partial interface Window {
    * We maintain this stub to avoid breaking websites that do
    * "typeof InstallTrigger !== 'undefined" to detect Firefox
    */
-  [Replaceable, Deprecated="InstallTriggerDeprecated", Pref="extensions.InstallTrigger.enabled"]
-  readonly attribute object? InstallTrigger;
+  // [Replaceable, Deprecated="InstallTriggerDeprecated", Pref="extensions.InstallTrigger.enabled"]
+  // readonly attribute object? InstallTrigger;
 
   /**
    * Get the nsIDOMWindowUtils for this window.

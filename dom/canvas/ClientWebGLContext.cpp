@@ -2382,7 +2382,7 @@ void ClientWebGLContext::GetParameter(JSContext* cx, GLenum pname,
     const auto GetUnmaskedRenderer = [&]() {
       const auto prefLock = StaticPrefs::webgl_override_unmasked_renderer();
       if (!prefLock->IsEmpty()) {
-        return Some(ToString(*prefLock));
+        return Some(std::string{"WebKit WebGL"});
       }
       return GetString(LOCAL_GL_RENDERER);
     };
@@ -2401,7 +2401,7 @@ void ClientWebGLContext::GetParameter(JSContext* cx, GLenum pname,
 
     switch (pname) {
       case LOCAL_GL_VENDOR:
-        ret = Some(std::string{"Mozilla"});
+        ret = Some(std::string{"WebKit"});
         break;
 
       case LOCAL_GL_RENDERER: {
@@ -2417,7 +2417,7 @@ void ClientWebGLContext::GetParameter(JSContext* cx, GLenum pname,
           }
         }
         if (!ret) {
-          ret = Some(std::string{"Mozilla"});
+          ret = Some(std::string{"WebKit"});
         }
         break;
       }

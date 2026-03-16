@@ -176,18 +176,19 @@ partial interface Navigator {
 };
 
 partial interface Navigator {
-  [Throws, Constant, Cached, NeedsCallerType]
-  readonly attribute DOMString oscpu;
+  [Constant, Cached]
+  // readonly attribute DOMString oscpu;
   // WebKit/Blink support this; Trident/Presto do not.
-  readonly attribute DOMString vendor;
   // WebKit/Blink supports this (hardcoded ""); Trident/Presto do not.
   readonly attribute DOMString vendorSub;
   // WebKit/Blink supports this (hardcoded "20030107"); Trident/Presto don't
   readonly attribute DOMString productSub;
   // WebKit/Blink/Trident/Presto support this.
   readonly attribute boolean cookieEnabled;
-  [Throws, Constant, Cached, NeedsCallerType]
-  readonly attribute DOMString buildID;
+  [Constant, Cached]
+  readonly attribute DOMString vendor;
+  // [Throws, Constant, Cached, NeedsCallerType]
+  // readonly attribute DOMString buildID; exposes firefox
 
   // WebKit/Blink/Trident/Presto support this.
   [Affects=Nothing, DependsOn=Nothing]

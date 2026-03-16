@@ -1481,3 +1481,27 @@ popupnotificationcontent {
 #bookmarksToolbarFolderMenu {
   --menuitem-icon: url("chrome://browser/skin/places/bookmarksToolbar.svg");
 }
+
+/* ===== Minimal Electron-style UI ===== */
+
+/* Hide all toolbars */
+/*#toolbar-menubar,
+#TabsToolbar,
+#nav-bar,
+#PersonalToolbar,
+#navigator-toolbox {
+display: none !important;
+}*/
+
+/* Remove top spacing so content fills window */
+/*#browser {
+margin-top: 0 !important;
+}*/
+
+/* Keep window buttons visible */
+/*.titlebar-buttonbox-container {
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+}*/
